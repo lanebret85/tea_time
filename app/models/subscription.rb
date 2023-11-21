@@ -1,5 +1,5 @@
 class Subscription < ApplicationRecord
-  enum status: { ordered: 0, shipped: 1, delivered: 2 }
+  enum status: { active: 0, canceled: 1 }
   enum frequency: { weekly: 0, monthly: 1, quarterly: 2 }
 
   belongs_to :customer

@@ -12,4 +12,22 @@ class Api::V1::Customers::SubscriptionsController < ApplicationController
       render json: { error: "Customer not found", status: 404 }, status: 404
     end
   end
+
+  def update
+    begin
+      subscription = Subscription.find(subscription_params[:id])
+      subscription.update(status: subscription_params[:status].to_i)
+      render json: { success: "Subscription canceled successfully", status: 200 }, status: 200
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { error: "Subscription not found", status: 404 }, status: 404
+    rescue ArgumentError => e
+      render json: { error: "Invalid subscription status", status: 400 }, status: 400
+    end
+  end
+
+  private
+
+  def subscription_params
+    params.permit(:id, :status)
+  end
 end
